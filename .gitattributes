@@ -1,0 +1,4 @@
+\# filter=lfs diff=lfs merge=lfs -text
+if filter=lfs diff=lfs merge=lfs -text
+using filter=lfs diff=lfs merge=lfs -text
+LFS filter=lfs diff=lfs merge=lfs -text
