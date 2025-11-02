@@ -11,7 +11,10 @@ interface VenueQueueProps {
   venueAllowsQueueing?: boolean;
 }
 
-export const VenueQueue = ({ venueId, venueAllowsQueueing = true }: VenueQueueProps) => {
+export const VenueQueue = ({
+  venueId,
+  venueAllowsQueueing = true,
+}: VenueQueueProps) => {
   const { queueItems, loading } = useVenueQueue(venueId);
 
   // Auto sync Spotify playback every 10 seconds
@@ -20,9 +23,12 @@ export const VenueQueue = ({ venueId, venueAllowsQueueing = true }: VenueQueuePr
 
     const autoSync = async () => {
       try {
-        const response = await supabase.functions.invoke("sync-spotify-playback", {
-          body: { venueId },
-        });
+        const response = await supabase.functions.invoke(
+          "sync-spotify-playback",
+          {
+            body: { venueId },
+          }
+        );
 
         const { data, error } = response;
         if (error) {
@@ -43,17 +49,24 @@ export const VenueQueue = ({ venueId, venueAllowsQueueing = true }: VenueQueuePr
   }, [venueId]);
 
   const formatTime = (timestamp: string) => {
-    return new Date(timestamp).toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return new Date(timestamp).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'playing':
-        return <Badge variant="default" className="bg-primary text-primary-foreground">🎵 Spelar</Badge>;
-      case 'pending':
+      case "playing":
+        return (
+          <Badge
+            variant="default"
+            className="bg-primary text-primary-foreground"
+          >
+            🎵 Spelar
+          </Badge>
+        );
+      case "pending":
         return <Badge variant="secondary">⏳ I kö</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
@@ -92,16 +105,21 @@ export const VenueQueue = ({ venueId, venueAllowsQueueing = true }: VenueQueuePr
             </div>
             {!venueAllowsQueueing ? (
               <div className="space-y-2">
-                <h3 className="text-lg font-medium text-foreground">Queue Currently Disabled</h3>
+                <h3 className="text-lg font-medium text-foreground">
+                  Kön för närvarande inaktiverad
+                </h3>
                 <p className="text-muted-foreground max-w-md mx-auto">
-                  The venue is not accepting song requests at this time. Check back later!
+                  Platsen tar inte emot låtförfrågningar för närvarande. Kom
+                  tillbaka senare!
                 </p>
               </div>
             ) : (
               <div className="space-y-2">
-                <h3 className="text-lg font-medium text-foreground">No Songs in Queue</h3>
+                <h3 className="text-lg font-medium text-foreground">
+                  Inga låtar i kön
+                </h3>
                 <p className="text-muted-foreground max-w-md mx-auto">
-                  Be the first to request a song and get the party started! 🎵
+                  Var först med att önska en låt och sätt igång festen! 🎵
                 </p>
               </div>
             )}
@@ -113,15 +131,15 @@ export const VenueQueue = ({ venueId, venueAllowsQueueing = true }: VenueQueuePr
                 <div
                   key={item.id}
                   className={`flex items-center gap-4 p-4 border border-border rounded-lg transition-colors ${
-                    item.status === 'playing' 
-                      ? 'bg-primary/10 border-primary/30' 
-                      : 'hover:bg-muted/50'
+                    item.status === "playing"
+                      ? "bg-primary/10 border-primary/30"
+                      : "hover:bg-muted/50"
                   }`}
                 >
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
                     {item.position || index + 1}
                   </div>
-                  
+
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-medium truncate">{item.song_name}</h3>
