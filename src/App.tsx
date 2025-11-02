@@ -40,12 +40,14 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/cookies" element={<Cookies />} />
-            <Route path="/help" element={<Help />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/venue-analytics/:venueId" element={<VenueAnalytics />} />
+            <Route
+              path="/venue-analytics/:venueId"
+              element={<VenueAnalytics />}
+            />
             <Route path="/venue/:venueId" element={<SpotifyInterface />} />
             <Route path="/setup" element={<Setup />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

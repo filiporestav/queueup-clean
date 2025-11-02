@@ -1,60 +1,49 @@
 import { Button } from "@/components/ui/button";
-import { Rocket, ArrowRight } from "lucide-react";
-import OnboardingModal from "./OnboardingModal";
 
 const CTASection = () => {
   return (
-    <section className="py-24 bg-gradient-accent relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-accent/10"></div>
-      <div className="absolute top-10 left-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-10 right-10 w-48 h-48 bg-accent/20 rounded-full blur-3xl"></div>
+    <section className="py-32 bg-gradient-to-b from-background to-secondary/5">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto text-center space-y-16">
+          {/* Headline */}
+          <div className="space-y-6">
+            <h2 className="text-5xl lg:text-6xl font-bold tracking-tight">
+              Redo att förvandla musik till pengar?
+            </h2>
+            <p className="text-xl lg:text-2xl text-muted-foreground font-light max-w-2xl mx-auto">
+              Gå med i venues världen över som förvandlat sin musikupplevelse
+              till en intäktsström.
+            </p>
+          </div>
 
-      <div className="container mx-auto px-4 text-center relative z-10">
-        <div className="max-w-3xl mx-auto space-y-8">
-          <h2 className="text-4xl lg:text-6xl font-bold text-secondary-foreground">
-            Redo att förvandla musik till pengar?
-          </h2>
-
-          <p className="text-xl text-secondary-foreground/80 max-w-2xl mx-auto">
-            Gå med i venues världen över som förvandlat sin musikupplevelse till en intäktsström. Installation tar mindre än 5 minuter.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <OnboardingModal />
-
+          {/* CTA Button */}
+          <div className="pt-4">
             <Button
-              variant="outline"
               size="lg"
-              className="text-lg px-8 py-6 border-secondary-foreground/20 text-secondary-foreground hover:bg-secondary-foreground/10"
+              className="text-base px-10 h-14 rounded-full"
+              onClick={() => (window.location.href = "/auth")}
             >
-              <ArrowRight className="mr-2" />
-              Se demo
+              Kom igång gratis
             </Button>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 pt-12">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-secondary-foreground mb-2">
-                &lt;5min
-              </div>
-              <div className="text-secondary-foreground/70">
+          {/* Stats Grid */}
+          <div className="grid md:grid-cols-3 gap-12 pt-8 border-t border-border/50">
+            <div className="space-y-2">
+              <div className="text-4xl font-bold">&lt;5min</div>
+              <div className="text-sm text-muted-foreground">
                 Genomsnittlig installationstid
               </div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-secondary-foreground mb-2">
-                0 kr
-              </div>
-              <div className="text-secondary-foreground/70">
+            <div className="space-y-2">
+              <div className="text-4xl font-bold">0 kr</div>
+              <div className="text-sm text-muted-foreground">
                 Månadsavgifter eller hårdvarukostnader
               </div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-secondary-foreground mb-2">
-                24/7
-              </div>
-              <div className="text-secondary-foreground/70">
+            <div className="space-y-2">
+              <div className="text-4xl font-bold">24/7</div>
+              <div className="text-sm text-muted-foreground">
                 Support & övervakning
               </div>
             </div>

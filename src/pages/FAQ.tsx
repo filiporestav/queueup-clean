@@ -162,7 +162,8 @@ const FAQ = () => {
             "Absolut! Vi arbetar med 50+ lokaler över hela Sverige inklusive cocktailbarer, sportbarer, restauranger och evenemangslokaler. Vi kan koppla dig till lokalägare i liknande situationer som kan dela sina erfarenheter och resultat.",
         },
         {
-          question: "Vad händer om våra kunder inte förstår hur man använder det?",
+          question:
+            "Vad händer om våra kunder inte förstår hur man använder det?",
           answer:
             "Systemet är otroligt intuitivt - de flesta kunder förstår det omedelbart. Vi tillhandahåller bordsskyltar och posters som förklarar hur det fungerar, och din personal kan enkelt visa de första kunderna. När några börjar använda det följer andra naturligt. Vi tillhandahåller också utbildningsmaterial för ditt team.",
         },
@@ -180,7 +181,7 @@ const FAQ = () => {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="pt-24 pb-20 bg-gradient-subtle">
+      <section className="pt-32 pb-20 bg-gradient-subtle">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl lg:text-6xl font-bold mb-6">
             Vanliga <span className="text-primary">Frågor</span>
@@ -236,10 +237,12 @@ const FAQ = () => {
       {/* Still Have Questions */}
       <section className="py-20 bg-gradient-subtle">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Har du fortfarande frågor?</h2>
+          <h2 className="text-4xl font-bold mb-6">
+            Har du fortfarande frågor?
+          </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Vårt team är här för att hjälpa dig förstå hur QueueUp kan fungera för
-            din specifika lokal och affärsmodell.
+            Vårt team är här för att hjälpa dig förstå hur QueueUp kan fungera
+            för din specifika lokal och affärsmodell.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-12">

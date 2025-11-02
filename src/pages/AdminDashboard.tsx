@@ -210,21 +210,22 @@ export default function AdminDashboard() {
           .sort((a, b) => b.total_songs_queued - a.total_songs_queued);
 
         // Queue time distribution - combine historical plays and current queue
-        const [{ data: queueTimeData }, { data: playedTimeData }] = await Promise.all([
-          supabase.from("song_queue").select("requested_at"),
-          supabase.from("song_plays").select("played_at")
-        ]);
+        const [{ data: queueTimeData }, { data: playedTimeData }] =
+          await Promise.all([
+            supabase.from("song_queue").select("requested_at"),
+            supabase.from("song_plays").select("played_at"),
+          ]);
 
         const timeDistribution: { [hour: number]: number } = {};
-        
+
         // Add queue requests
-        queueTimeData?.forEach(item => {
+        queueTimeData?.forEach((item) => {
           const hour = new Date(item.requested_at).getHours();
           timeDistribution[hour] = (timeDistribution[hour] || 0) + 1;
         });
-        
+
         // Add historical plays (using played_at as request time proxy)
-        playedTimeData?.forEach(item => {
+        playedTimeData?.forEach((item) => {
           const hour = new Date(item.played_at).getHours();
           timeDistribution[hour] = (timeDistribution[hour] || 0) + 1;
         });
@@ -240,8 +241,12 @@ export default function AdminDashboard() {
           .select("duration_ms")
           .not("duration_ms", "is", null);
 
-        const averageSongDuration = durationData?.length ? 
-          durationData.reduce((sum, item) => sum + (item.duration_ms || 0), 0) / durationData.length : 0;
+        const averageSongDuration = durationData?.length
+          ? durationData.reduce(
+              (sum, item) => sum + (item.duration_ms || 0),
+              0
+            ) / durationData.length
+          : 0;
 
         setStats({
           totalRevenue,
@@ -269,82 +274,92 @@ export default function AdminDashboard() {
 
     // Prepare comprehensive data for export
     const csvData = [];
-    
+
     // Add summary metrics
-    csvData.push(['PLATFORM SUMMARY']);
-    csvData.push(['Metric', 'Value']);
-    csvData.push(['Total Revenue', `${stats.totalRevenue.toFixed(2)} kr`]);
-    csvData.push(['Total Songs Queued', stats.totalSongsQueued]);
-    csvData.push(['Total Venues', stats.totalVenues]);
-    csvData.push(['Total Songs Played', stats.totalSongsPlayed]);
-    csvData.push(['Average Song Duration (ms)', stats.averageSongDuration.toFixed(0)]);
-    csvData.push(['']);
+    csvData.push(["PLATFORM SUMMARY"]);
+    csvData.push(["Metric", "Value"]);
+    csvData.push(["Total Revenue", `${stats.totalRevenue.toFixed(2)} kr`]);
+    csvData.push(["Total Songs Queued", stats.totalSongsQueued]);
+    csvData.push(["Total Venues", stats.totalVenues]);
+    csvData.push(["Total Songs Played", stats.totalSongsPlayed]);
+    csvData.push([
+      "Average Song Duration (ms)",
+      stats.averageSongDuration.toFixed(0),
+    ]);
+    csvData.push([""]);
 
     // Revenue by venue
-    csvData.push(['REVENUE BY VENUE']);
-    csvData.push(['Venue Name', 'Total Revenue']);
-    stats.revenueByVenue.forEach(venue => {
+    csvData.push(["REVENUE BY VENUE"]);
+    csvData.push(["Venue Name", "Total Revenue"]);
+    stats.revenueByVenue.forEach((venue) => {
       csvData.push([venue.venue_name, `${venue.total_revenue.toFixed(2)} kr`]);
     });
-    csvData.push(['']);
+    csvData.push([""]);
 
     // Popular songs
-    csvData.push(['POPULAR SONGS']);
-    csvData.push(['Song Name', 'Artist Name', 'Play Count']);
-    stats.popularSongs.forEach(song => {
+    csvData.push(["POPULAR SONGS"]);
+    csvData.push(["Song Name", "Artist Name", "Play Count"]);
+    stats.popularSongs.forEach((song) => {
       csvData.push([song.song_name, song.artist_name, song.play_count]);
     });
-    csvData.push(['']);
+    csvData.push([""]);
 
     // Top artists
-    csvData.push(['TOP ARTISTS']);
-    csvData.push(['Artist Name', 'Song Count']);
-    stats.topGenres.forEach(artist => {
+    csvData.push(["TOP ARTISTS"]);
+    csvData.push(["Artist Name", "Song Count"]);
+    stats.topGenres.forEach((artist) => {
       csvData.push([artist.artist_name, artist.song_count]);
     });
-    csvData.push(['']);
+    csvData.push([""]);
 
     // Venues by queue count
-    csvData.push(['VENUES BY ACTIVITY']);
-    csvData.push(['Venue Name', 'Total Songs Played']);
-    stats.venuesByQueueCount.forEach(venue => {
+    csvData.push(["VENUES BY ACTIVITY"]);
+    csvData.push(["Venue Name", "Total Songs Played"]);
+    stats.venuesByQueueCount.forEach((venue) => {
       csvData.push([venue.venue_name, venue.total_songs_queued]);
     });
-    csvData.push(['']);
+    csvData.push([""]);
 
     // Queue time distribution
-    csvData.push(['HOURLY REQUEST DISTRIBUTION']);
-    csvData.push(['Hour (24h)', 'Request Count']);
-    stats.queueTimeDistribution.forEach(item => {
+    csvData.push(["HOURLY REQUEST DISTRIBUTION"]);
+    csvData.push(["Hour (24h)", "Request Count"]);
+    stats.queueTimeDistribution.forEach((item) => {
       csvData.push([`${item.hour}:00`, item.count]);
     });
-    csvData.push(['']);
+    csvData.push([""]);
 
     // Songs queued over time
-    csvData.push(['SONGS QUEUED OVER TIME (LAST 30 DAYS)']);
-    csvData.push(['Date', 'Songs Queued']);
-    stats.songsQueuedOverTime.forEach(item => {
+    csvData.push(["SONGS QUEUED OVER TIME (LAST 30 DAYS)"]);
+    csvData.push(["Date", "Songs Queued"]);
+    stats.songsQueuedOverTime.forEach((item) => {
       csvData.push([item.date, item.count]);
     });
 
     // Convert to CSV string
-    const csvString = csvData.map(row => 
-      row.map(field => {
-        // Handle fields that might contain commas by wrapping in quotes
-        const str = String(field);
-        return str.includes(',') || str.includes('"') || str.includes('\n') 
-          ? `"${str.replace(/"/g, '""')}"` 
-          : str;
-      }).join(',')
-    ).join('\n');
+    const csvString = csvData
+      .map((row) =>
+        row
+          .map((field) => {
+            // Handle fields that might contain commas by wrapping in quotes
+            const str = String(field);
+            return str.includes(",") || str.includes('"') || str.includes("\n")
+              ? `"${str.replace(/"/g, '""')}"`
+              : str;
+          })
+          .join(",")
+      )
+      .join("\n");
 
     // Create and download file
-    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
+    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `admin-analytics-${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `admin-analytics-${new Date().toISOString().split("T")[0]}.csv`
+    );
+    link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -399,7 +414,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background mt-20">
       <div className="container mx-auto p-6">
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -415,9 +430,9 @@ export default function AdminDashboard() {
                 Admin Access
               </Badge>
             </div>
-            <Button 
-              onClick={exportToCSV} 
-              variant="outline" 
+            <Button
+              onClick={exportToCSV}
+              variant="outline"
               className="shrink-0"
               disabled={!stats}
             >
@@ -607,27 +622,34 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {stats?.averageSongDuration 
-                      ? `${Math.floor((stats.averageSongDuration / 1000) / 60)}:${Math.floor((stats.averageSongDuration / 1000) % 60).toString().padStart(2, '0')}`
-                      : '0:00'}
+                    {stats?.averageSongDuration
+                      ? `${Math.floor(
+                          stats.averageSongDuration / 1000 / 60
+                        )}:${Math.floor((stats.averageSongDuration / 1000) % 60)
+                          .toString()
+                          .padStart(2, "0")}`
+                      : "0:00"}
                   </div>
-                  <p className="text-xs text-muted-foreground">Minutes:Seconds</p>
+                  <p className="text-xs text-muted-foreground">
+                    Minutes:Seconds
+                  </p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader>
                   <CardTitle>Peak Request Hours</CardTitle>
                   <CardDescription>
-                    When songs were requested throughout history (current queue + historical plays)
+                    When songs were requested throughout history (current queue
+                    + historical plays)
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={stats?.queueTimeDistribution || []}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis 
-                        dataKey="hour" 
+                      <XAxis
+                        dataKey="hour"
                         tickFormatter={(hour) => `${hour}:00`}
                       />
                       <YAxis />
@@ -683,7 +705,9 @@ export default function AdminDashboard() {
                       <div
                         key={venue.venue_id}
                         className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
-                        onClick={() => navigate(`/venue-analytics/${venue.venue_id}`)}
+                        onClick={() =>
+                          navigate(`/venue-analytics/${venue.venue_id}`)
+                        }
                       >
                         <div>
                           <p className="font-medium">{venue.venue_name}</p>

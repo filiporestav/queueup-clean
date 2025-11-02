@@ -4,8 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Mail, Phone, MapPin, Clock, CheckCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,7 +43,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
-  
+
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -47,8 +60,8 @@ const Contact = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      const { error } = await supabase.functions.invoke('contact-request', {
-        body: data
+      const { error } = await supabase.functions.invoke("contact-request", {
+        body: data,
       });
 
       if (error) {
@@ -61,8 +74,8 @@ const Contact = () => {
         description: "Vi kommer att kontakta dig inom 24 timmar.",
       });
       form.reset();
-    } catch (error: any) {
-      console.error('Error submitting contact form:', error);
+    } catch (error: unknown) {
+      console.error("Error submitting contact form:", error);
       toast({
         title: "Ett fel uppstod",
         description: "Kunde inte skicka meddelandet. Försök igen.",
@@ -75,7 +88,7 @@ const Contact = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        
+
         <main className="pt-24 pb-16">
           <div className="container mx-auto px-4">
             <div className="text-center max-w-2xl mx-auto">
@@ -86,7 +99,9 @@ const Contact = () => {
                 Tack för ditt intresse!
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
-                Vi har tagit emot ditt meddelande och kommer att kontakta dig inom 24 timmar för att diskutera hur QueueUp kan hjälpa din lokal att öka intäkter och kundnöjdhet.
+                Vi har tagit emot ditt meddelande och kommer att kontakta dig
+                inom 24 timmar för att diskutera hur QueueUp kan hjälpa din
+                lokal att öka intäkter och kundnöjdhet.
               </p>
               <Button onClick={() => setIsSubmitted(false)} variant="outline">
                 Skicka ett till meddelande
@@ -103,7 +118,7 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -111,20 +126,27 @@ const Contact = () => {
               Intresserad av QueueUp för din lokal?
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Upptäck hur QueueUp kan öka dina intäkter med upp till 30% genom interaktiv musikupplevelse och kundengagemang.
+              Upptäck hur QueueUp kan öka dina intäkter med upp till 30% genom
+              interaktiv musikupplevelse och kundengagemang.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Contact Form */}
             <div className="bg-card border border-border rounded-2xl p-8">
-              <h2 className="text-2xl font-bold mb-2">Få en kostnadsfri konsultation</h2>
+              <h2 className="text-2xl font-bold mb-2">
+                Få en kostnadsfri konsultation
+              </h2>
               <p className="text-muted-foreground mb-6">
-                Berätta om din lokal så visar vi hur QueueUp kan passa er verksamhet.
+                Berätta om din lokal så visar vi hur QueueUp kan passa er
+                verksamhet.
               </p>
-              
+
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-6"
+                >
                   <div className="grid md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
@@ -133,7 +155,10 @@ const Contact = () => {
                         <FormItem>
                           <FormLabel>Lokalens namn *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Namnet på din restaurang/bar/café" {...field} />
+                            <Input
+                              placeholder="Namnet på din restaurang/bar/café"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -146,14 +171,17 @@ const Contact = () => {
                         <FormItem>
                           <FormLabel>Ditt namn *</FormLabel>
                           <FormControl>
-                            <Input placeholder="För- och efternamn" {...field} />
+                            <Input
+                              placeholder="För- och efternamn"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
-                  
+
                   <div className="grid md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
@@ -162,7 +190,11 @@ const Contact = () => {
                         <FormItem>
                           <FormLabel>E-post *</FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="din@email.com" {...field} />
+                            <Input
+                              type="email"
+                              placeholder="din@email.com"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -204,7 +236,10 @@ const Contact = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Nuvarande musiksystem</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Välj system" />
@@ -212,7 +247,9 @@ const Contact = () => {
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="spotify">Spotify</SelectItem>
-                              <SelectItem value="apple-music">Apple Music</SelectItem>
+                              <SelectItem value="apple-music">
+                                Apple Music
+                              </SelectItem>
                               <SelectItem value="radio">Radio</SelectItem>
                               <SelectItem value="dj">DJ/Live musik</SelectItem>
                               <SelectItem value="other">Annat</SelectItem>
@@ -229,7 +266,10 @@ const Contact = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Antal kunder per dag</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Uppskatta antal" />
@@ -237,8 +277,12 @@ const Contact = () => {
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="0-50">0-50 kunder</SelectItem>
-                              <SelectItem value="50-100">50-100 kunder</SelectItem>
-                              <SelectItem value="100-200">100-200 kunder</SelectItem>
+                              <SelectItem value="50-100">
+                                50-100 kunder
+                              </SelectItem>
+                              <SelectItem value="100-200">
+                                100-200 kunder
+                              </SelectItem>
                               <SelectItem value="200+">200+ kunder</SelectItem>
                             </SelectContent>
                           </Select>
@@ -255,7 +299,7 @@ const Contact = () => {
                       <FormItem>
                         <FormLabel>Meddelande</FormLabel>
                         <FormControl>
-                          <Textarea 
+                          <Textarea
                             placeholder="Berätta mer om er verksamhet och vad ni hoppas uppnå med QueueUp..."
                             className="min-h-32"
                             {...field}
@@ -265,13 +309,15 @@ const Contact = () => {
                       </FormItem>
                     )}
                   />
-                  
-                  <Button 
-                    type="submit" 
+
+                  <Button
+                    type="submit"
                     className="w-full"
                     disabled={form.formState.isSubmitting}
                   >
-                    {form.formState.isSubmitting ? "Skickar..." : "Få kostnadsfri konsultation"}
+                    {form.formState.isSubmitting
+                      ? "Skickar..."
+                      : "Få kostnadsfri konsultation"}
                   </Button>
                 </form>
               </Form>
@@ -280,34 +326,58 @@ const Contact = () => {
             {/* Benefits & Contact Info */}
             <div className="space-y-8">
               <div className="bg-card border border-border rounded-2xl p-8">
-                <h2 className="text-2xl font-bold mb-6">Fördelar med QueueUp</h2>
+                <h2 className="text-2xl font-bold mb-6">
+                  Fördelar med QueueUp
+                </h2>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="text-primary mt-1 flex-shrink-0" size={20} />
+                    <CheckCircle
+                      className="text-primary mt-1 flex-shrink-0"
+                      size={20}
+                    />
                     <div>
                       <h3 className="font-semibold">Öka intäkter med 20-30%</h3>
-                      <p className="text-muted-foreground text-sm">Kunder betalar för att önska musik och kommer oftare</p>
+                      <p className="text-muted-foreground text-sm">
+                        Kunder betalar för att önska musik och kommer oftare
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="text-primary mt-1 flex-shrink-0" size={20} />
+                    <CheckCircle
+                      className="text-primary mt-1 flex-shrink-0"
+                      size={20}
+                    />
                     <div>
-                      <h3 className="font-semibold">Förbättrad kundupplevelse</h3>
-                      <p className="text-muted-foreground text-sm">Interaktiv musikupplevelse som engagerar gästerna</p>
+                      <h3 className="font-semibold">
+                        Förbättrad kundupplevelse
+                      </h3>
+                      <p className="text-muted-foreground text-sm">
+                        Interaktiv musikupplevelse som engagerar gästerna
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="text-primary mt-1 flex-shrink-0" size={20} />
+                    <CheckCircle
+                      className="text-primary mt-1 flex-shrink-0"
+                      size={20}
+                    />
                     <div>
                       <h3 className="font-semibold">Enkel installation</h3>
-                      <p className="text-muted-foreground text-sm">Upp och igång på mindre än 30 minuter</p>
+                      <p className="text-muted-foreground text-sm">
+                        Upp och igång på mindre än 30 minuter
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="text-primary mt-1 flex-shrink-0" size={20} />
+                    <CheckCircle
+                      className="text-primary mt-1 flex-shrink-0"
+                      size={20}
+                    />
                     <div>
                       <h3 className="font-semibold">Detaljerad analys</h3>
-                      <p className="text-muted-foreground text-sm">Få insikter om era gästers musikpreferenser</p>
+                      <p className="text-muted-foreground text-sm">
+                        Få insikter om era gästers musikpreferenser
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -322,10 +392,10 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">E-post</h3>
-                      <p className="text-muted-foreground">hello@queueup.ai</p>
+                      <p className="text-muted-foreground">hello@queue-up.se</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
                       <Phone className="text-primary" size={20} />
@@ -335,7 +405,7 @@ const Contact = () => {
                       <p className="text-muted-foreground">+46 70 123 45 67</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
                       <Clock className="text-primary" size={20} />
@@ -343,7 +413,8 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold mb-1">Svarstider</h3>
                       <p className="text-muted-foreground">
-                        Vi svarar inom 24 timmar<br />
+                        Vi svarar inom 24 timmar
+                        <br />
                         Måndag - Fredag: 09:00 - 17:00
                       </p>
                     </div>

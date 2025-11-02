@@ -121,14 +121,14 @@ const Platform = () => {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="pt-24 pb-20 bg-gradient-subtle">
+      <section className="pt-32 pb-20 bg-gradient-subtle">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl lg:text-6xl font-bold mb-6">
-            En Plattform, <span className="text-primary">Två Upplevelser</span>
+            En plattform, <span className="text-primary">två upplevelser</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
             Kraftfulla verktyg för företag att öka intäkter, och fantastiska
-            upplevelser för kunder att kontrollera sin kväll.
+            upplevelser för gäster att kontrollera sin kväll.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -140,7 +140,7 @@ const Platform = () => {
               offset={-50}
             >
               <Button variant="hero" size="lg">
-                För Företag
+                För företag
               </Button>
             </Link>
 
@@ -152,7 +152,7 @@ const Platform = () => {
               offset={-50}
             >
               <Button variant="secondary" size="lg">
-                För Kunder
+                För gäster
               </Button>
             </Link>
           </div>
@@ -164,7 +164,7 @@ const Platform = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Building2 className="w-16 h-16 text-primary mx-auto mb-6" />
-            <h2 className="text-4xl font-bold mb-4">För Företag</h2>
+            <h2 className="text-4xl font-bold mb-4">För företag</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Förvandla ditt musiksystem till en vinstcentral med kraftfull
               analys och AI-driven optimering
@@ -216,7 +216,7 @@ const Platform = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Users className="w-16 h-16 text-secondary mx-auto mb-6" />
-            <h2 className="text-4xl font-bold mb-4">För Kunder</h2>
+            <h2 className="text-4xl font-bold mb-4">För kunder</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               En sömlös, engagerande upplevelse som ger dig kontroll över
               lokalens atmosfär

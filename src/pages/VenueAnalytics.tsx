@@ -103,13 +103,15 @@ export default function VenueAnalytics() {
         .select("amount, created_at")
         .eq("venue_id", venueId);
 
-      const totalRevenue = revenueData?.reduce((sum, item) => sum + Number(item.amount), 0) || 0;
+      const totalRevenue =
+        revenueData?.reduce((sum, item) => sum + Number(item.amount), 0) || 0;
 
       // Get today's revenue
-      const today = new Date().toISOString().split('T')[0];
-      const revenueToday = revenueData?.filter(item => 
-        item.created_at.startsWith(today)
-      ).reduce((sum, item) => sum + Number(item.amount), 0) || 0;
+      const today = new Date().toISOString().split("T")[0];
+      const revenueToday =
+        revenueData
+          ?.filter((item) => item.created_at.startsWith(today))
+          .reduce((sum, item) => sum + Number(item.amount), 0) || 0;
 
       // Get total songs played
       const { count: totalSongsPlayed } = await supabase
@@ -176,13 +178,13 @@ export default function VenueAnalytics() {
         .eq("venue_id", venueId);
 
       const hourCounts: { [hour: number]: number } = {};
-      
-      queueData?.forEach(item => {
+
+      queueData?.forEach((item) => {
         const hour = new Date(item.requested_at).getHours();
         hourCounts[hour] = (hourCounts[hour] || 0) + 1;
       });
 
-      playData?.forEach(item => {
+      playData?.forEach((item) => {
         const hour = new Date(item.played_at).getHours();
         hourCounts[hour] = (hourCounts[hour] || 0) + 1;
       });
@@ -199,15 +201,17 @@ export default function VenueAnalytics() {
         .eq("venue_id", venueId)
         .not("duration_ms", "is", null);
 
-      const averageSongDuration = durationData?.length ? 
-        durationData.reduce((sum, item) => sum + (item.duration_ms || 0), 0) / durationData.length : 0;
+      const averageSongDuration = durationData?.length
+        ? durationData.reduce((sum, item) => sum + (item.duration_ms || 0), 0) /
+          durationData.length
+        : 0;
 
       // Get revenue over time (last 30 days)
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      const revenueOverTimeData = revenueData?.filter(item => 
-        new Date(item.created_at) >= thirtyDaysAgo
+      const revenueOverTimeData = revenueData?.filter(
+        (item) => new Date(item.created_at) >= thirtyDaysAgo
       );
 
       const revenueByDate = revenueOverTimeData?.reduce((acc: any, item) => {
@@ -221,8 +225,8 @@ export default function VenueAnalytics() {
         .sort((a, b) => a.date.localeCompare(b.date));
 
       // Get songs played over time (last 30 days)
-      const songsPlayedOverTimeData = playData?.filter(item => 
-        new Date(item.played_at) >= thirtyDaysAgo
+      const songsPlayedOverTimeData = playData?.filter(
+        (item) => new Date(item.played_at) >= thirtyDaysAgo
       );
 
       const playsByDate = songsPlayedOverTimeData?.reduce((acc: any, item) => {
@@ -261,42 +265,42 @@ export default function VenueAnalytics() {
 
     // Set up real-time listeners
     const revenueChannel = supabase
-      .channel('venue-revenue-changes')
+      .channel("venue-revenue-changes")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*',
-          schema: 'public',
-          table: 'venue_revenue',
-          filter: `venue_id=eq.${venueId}`
+          event: "*",
+          schema: "public",
+          table: "venue_revenue",
+          filter: `venue_id=eq.${venueId}`,
         },
         () => fetchVenueStats()
       )
       .subscribe();
 
     const queueChannel = supabase
-      .channel('venue-queue-changes')
+      .channel("venue-queue-changes")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*',
-          schema: 'public',
-          table: 'song_queue',
-          filter: `venue_id=eq.${venueId}`
+          event: "*",
+          schema: "public",
+          table: "song_queue",
+          filter: `venue_id=eq.${venueId}`,
         },
         () => fetchVenueStats()
       )
       .subscribe();
 
     const playsChannel = supabase
-      .channel('venue-plays-changes')
+      .channel("venue-plays-changes")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*',
-          schema: 'public',
-          table: 'song_plays',
-          filter: `venue_id=eq.${venueId}`
+          event: "*",
+          schema: "public",
+          table: "song_plays",
+          filter: `venue_id=eq.${venueId}`,
         },
         () => fetchVenueStats()
       )
@@ -360,9 +364,9 @@ export default function VenueAnalytics() {
       <div className="container mx-auto p-6">
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-4">
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/admin')}
+            <Button
+              variant="ghost"
+              onClick={() => navigate("/admin")}
               className="shrink-0"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -380,7 +384,8 @@ export default function VenueAnalytics() {
             {stats.venueInfo.physical_address}
           </p>
           <p className="text-sm text-muted-foreground">
-            Member since {new Date(stats.venueInfo.created_at).toLocaleDateString()}
+            Member since{" "}
+            {new Date(stats.venueInfo.created_at).toLocaleDateString()}
           </p>
         </div>
 
@@ -388,7 +393,9 @@ export default function VenueAnalytics() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Revenue
+              </CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -401,7 +408,9 @@ export default function VenueAnalytics() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Revenue Today</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Revenue Today
+              </CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -414,7 +423,9 @@ export default function VenueAnalytics() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Songs Played</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Songs Played
+              </CardTitle>
               <Music className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -425,7 +436,9 @@ export default function VenueAnalytics() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Current Queue</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Current Queue
+              </CardTitle>
               <List className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -444,7 +457,9 @@ export default function VenueAnalytics() {
             <Card>
               <CardHeader>
                 <CardTitle>Peak Request Hours</CardTitle>
-                <CardDescription>Most active times for song requests</CardDescription>
+                <CardDescription>
+                  Most active times for song requests
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -462,7 +477,9 @@ export default function VenueAnalytics() {
             <Card>
               <CardHeader>
                 <CardTitle>Top Artists</CardTitle>
-                <CardDescription>Most played artists at this venue</CardDescription>
+                <CardDescription>
+                  Most played artists at this venue
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -507,9 +524,16 @@ export default function VenueAnalytics() {
                     <XAxis dataKey="date" />
                     <YAxis />
                     <Tooltip
-                      formatter={(value) => [`${Number(value).toFixed(2)} kr`, "Revenue"]}
+                      formatter={(value) => [
+                        `${Number(value).toFixed(2)} kr`,
+                        "Revenue",
+                      ]}
                     />
-                    <Line type="monotone" dataKey="amount" stroke="hsl(var(--primary))" />
+                    <Line
+                      type="monotone"
+                      dataKey="amount"
+                      stroke="hsl(var(--primary))"
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -527,7 +551,11 @@ export default function VenueAnalytics() {
                     <XAxis dataKey="date" />
                     <YAxis />
                     <Tooltip formatter={(value) => [value, "Songs"]} />
-                    <Line type="monotone" dataKey="count" stroke="hsl(var(--secondary))" />
+                    <Line
+                      type="monotone"
+                      dataKey="count"
+                      stroke="hsl(var(--secondary))"
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -539,7 +567,9 @@ export default function VenueAnalytics() {
             <Card className="lg:col-span-2">
               <CardHeader>
                 <CardTitle>Most Popular Songs</CardTitle>
-                <CardDescription>Top requested songs at this venue</CardDescription>
+                <CardDescription>
+                  Top requested songs at this venue
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ScrollArea className="h-[400px]">
@@ -555,7 +585,9 @@ export default function VenueAnalytics() {
                             {song.artist_name}
                           </p>
                         </div>
-                        <Badge variant="secondary">{song.play_count} plays</Badge>
+                        <Badge variant="secondary">
+                          {song.play_count} plays
+                        </Badge>
                       </div>
                     ))}
                   </div>
@@ -572,9 +604,13 @@ export default function VenueAnalytics() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {stats.averageSongDuration 
-                    ? `${Math.floor((stats.averageSongDuration / 1000) / 60)}:${Math.floor((stats.averageSongDuration / 1000) % 60).toString().padStart(2, '0')}`
-                    : '0:00'}
+                  {stats.averageSongDuration
+                    ? `${Math.floor(
+                        stats.averageSongDuration / 1000 / 60
+                      )}:${Math.floor((stats.averageSongDuration / 1000) % 60)
+                        .toString()
+                        .padStart(2, "0")}`
+                    : "0:00"}
                 </div>
                 <p className="text-xs text-muted-foreground">Minutes:Seconds</p>
               </CardContent>

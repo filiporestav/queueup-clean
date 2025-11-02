@@ -1,6 +1,20 @@
-import { Check, ExternalLink, ArrowRight, Music, Settings, QrCode, Users } from "lucide-react";
+import {
+  Check,
+  ExternalLink,
+  ArrowRight,
+  Music,
+  Settings,
+  QrCode,
+  Users,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
@@ -9,16 +23,15 @@ const Setup = () => {
   const steps = [
     {
       title: "Skapa ditt konto",
-      description: "Registrera dig och fyll i din venues grundläggande information",
+      description:
+        "Registrera dig och fyll i din venues grundläggande information",
       icon: <Users className="h-6 w-6" />,
       details: [
         "Gå till inloggningssidan och välj 'Registrera dig'",
         "Fyll i din venue-information (namn, adress, kontaktuppgifter)",
         "Bekräfta din e-post och logga in",
       ],
-      links: [
-        { text: "Registrera dig här", url: "/auth", internal: true }
-      ]
+      links: [{ text: "Registrera dig här", url: "/auth", internal: true }],
     },
     {
       title: "Skaffa Spotify Developer Credentials",
@@ -34,8 +47,12 @@ const Setup = () => {
         "Lägg till Redirect URI: https://gfxostamwwzyvjsarwaa.supabase.co/functions/v1/spotify-callback",
       ],
       links: [
-        { text: "Spotify Developer Dashboard", url: "https://developer.spotify.com/dashboard", internal: false }
-      ]
+        {
+          text: "Spotify Developer Dashboard",
+          url: "https://developer.spotify.com/dashboard",
+          internal: false,
+        },
+      ],
     },
     {
       title: "Konfigurera din Spotify-integration",
@@ -51,9 +68,7 @@ const Setup = () => {
         "Efter godkännande kommer du tillbaka till dashboarden",
         "Verifiera att status visar 'Connected' med en grön ikon",
       ],
-      links: [
-        { text: "Gå till Dashboard", url: "/dashboard", internal: true }
-      ]
+      links: [{ text: "Gå till Dashboard", url: "/dashboard", internal: true }],
     },
     {
       title: "Konfigurera prissättning och inställningar",
@@ -67,7 +82,7 @@ const Setup = () => {
         "• Dynamisk: Priset ökar baserat på kölängd",
         "Konfigurera om låtval ska begränsas till specifik playlist",
         "Spara dina inställningar",
-      ]
+      ],
     },
     {
       title: "Generera och visa din QR-kod",
@@ -80,7 +95,7 @@ const Setup = () => {
         "Skriv ut och placera den synligt i din venue",
         "Kunder scannar koden för att komma till din venues kö",
         "Alternativt, dela länken direkt: queueup.se/venue/[ditt-venue-id]",
-      ]
+      ],
     },
     {
       title: "Testa systemet",
@@ -93,39 +108,44 @@ const Setup = () => {
         "Testa att ändra låtstatus (spelas nu, slutförd)",
         "Verifiera att betalningar fungerar (om aktiverat)",
         "Instruera din personal om hur systemet fungerar",
-      ]
-    }
+      ],
+    },
   ];
 
   const tips = [
     {
       title: "Placering av QR-kod",
-      description: "Placera QR-koden på ett välsynligt ställe nära baren eller DJ-båset där kunder enkelt kan se och scanna den."
+      description:
+        "Placera QR-koden på ett välsynligt ställe nära baren eller DJ-båset där kunder enkelt kan se och scanna den.",
     },
     {
       title: "Prissättning",
-      description: "Börja med låga priser (5-15 kr) för att uppmuntra användning. Du kan alltid höja priserna senare baserat på efterfrågan."
+      description:
+        "Börja med låga priser (5-15 kr) för att uppmuntra användning. Du kan alltid höja priserna senare baserat på efterfrågan.",
     },
     {
       title: "Spotify Premium",
-      description: "Även om det inte är obligatoriskt för systemet, rekommenderas Spotify Premium för bästa spelupplevelse."
+      description:
+        "Även om det inte är obligatoriskt för systemet, rekommenderas Spotify Premium för bästa spelupplevelse.",
     },
     {
       title: "Personal träning",
-      description: "Se till att din personal vet hur de använder dashboarden för att hantera kön och svara på kundfrågor."
-    }
+      description:
+        "Se till att din personal vet hur de använder dashboarden för att hantera kön och svara på kundfrågor.",
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <div className="container mx-auto px-4 py-12">
+    <div className="mt-32 min-h-screen bg-gradient-to-br from-background via-background to-muted/20 pb-10">
+      <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent mb-4">
             Kom igång med QueueUp
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Följ denna steg-för-steg guide för att sätta upp QueueUp på din venue och börja ta emot låtförfrågningar från dina kunder.
+            Följ denna steg-för-steg guide för att sätta upp QueueUp på din
+            venue och börja ta emot låtförfrågningar från dina kunder.
           </p>
         </div>
 
@@ -144,7 +164,10 @@ const Setup = () => {
         {/* Setup Steps */}
         <div className="space-y-8 mb-16">
           {steps.map((step, index) => (
-            <Card key={index} className="overflow-hidden border-border/40 bg-card/50 backdrop-blur-sm">
+            <Card
+              key={index}
+              className="overflow-hidden border-border/40 bg-card/50 backdrop-blur-sm"
+            >
               <CardHeader className="bg-gradient-to-r from-primary/5 to-accent/5">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
@@ -152,7 +175,9 @@ const Setup = () => {
                   </div>
                   <div>
                     <CardTitle className="text-xl">{step.title}</CardTitle>
-                    <CardDescription className="text-base mt-1">{step.description}</CardDescription>
+                    <CardDescription className="text-base mt-1">
+                      {step.description}
+                    </CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -167,23 +192,41 @@ const Setup = () => {
                 </div>
                 {step.links && (
                   <div className="flex flex-wrap gap-3">
-                    {step.links.map((link, linkIndex) => (
+                    {step.links.map((link, linkIndex) =>
                       link.internal ? (
-                        <Button key={linkIndex} asChild variant="outline" size="sm">
-                          <Link to={link.url} className="flex items-center gap-2">
+                        <Button
+                          key={linkIndex}
+                          asChild
+                          variant="outline"
+                          size="sm"
+                        >
+                          <Link
+                            to={link.url}
+                            className="flex items-center gap-2"
+                          >
                             {link.text}
                             <ArrowRight className="h-4 w-4" />
                           </Link>
                         </Button>
                       ) : (
-                        <Button key={linkIndex} asChild variant="outline" size="sm">
-                          <a href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                        <Button
+                          key={linkIndex}
+                          asChild
+                          variant="outline"
+                          size="sm"
+                        >
+                          <a
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2"
+                          >
                             {link.text}
                             <ExternalLink className="h-4 w-4" />
                           </a>
                         </Button>
                       )
-                    ))}
+                    )}
                   </div>
                 )}
               </CardContent>
@@ -195,10 +238,15 @@ const Setup = () => {
 
         {/* Tips Section */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-center mb-8">Användbara tips</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">
+            Användbara tips
+          </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {tips.map((tip, index) => (
-              <Card key={index} className="border-border/40 bg-card/50 backdrop-blur-sm">
+              <Card
+                key={index}
+                className="border-border/40 bg-card/50 backdrop-blur-sm"
+              >
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
                     <Badge variant="secondary">{index + 1}</Badge>
@@ -219,21 +267,24 @@ const Setup = () => {
             <CardHeader>
               <CardTitle className="text-2xl">Redo att börja?</CardTitle>
               <CardDescription className="text-base">
-                Skapa ditt konto idag och börja ta emot låtförfrågningar inom några minuter.
+                Skapa ditt konto idag och börja ta emot låtförfrågningar inom
+                några minuter.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild size="lg" className="bg-gradient-to-r from-primary to-primary-glow">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-gradient-to-r from-primary to-primary-glow"
+                >
                   <Link to="/auth">
                     Skapa konto
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
-                  <Link to="/contact">
-                    Behöver hjälp?
-                  </Link>
+                  <Link to="/contact">Behöver hjälp?</Link>
                 </Button>
               </div>
             </CardContent>

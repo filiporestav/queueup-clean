@@ -15,18 +15,18 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { 
-  Loader2, 
-  BarChart3, 
-  DollarSign, 
-  Upload, 
-  Music, 
-  RefreshCw, 
-  Play, 
+import {
+  Loader2,
+  BarChart3,
+  DollarSign,
+  Upload,
+  Music,
+  RefreshCw,
+  Play,
   Settings,
   CheckCircle2,
   XCircle,
-  Clock
+  Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -58,7 +58,8 @@ interface SpotifyCredentials {
 
 const Dashboard = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [spotifyCredentials, setSpotifyCredentials] = useState<SpotifyCredentials | null>(null);
+  const [spotifyCredentials, setSpotifyCredentials] =
+    useState<SpotifyCredentials | null>(null);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
   const { user, signOut } = useAuth();
@@ -93,7 +94,9 @@ const Dashboard = () => {
 
     const fetchSpotifyCredentials = async () => {
       try {
-        const { data, error } = await supabase.rpc('get_user_spotify_credentials');
+        const { data, error } = await supabase.rpc(
+          "get_user_spotify_credentials"
+        );
 
         if (error) {
           console.error("Error fetching Spotify credentials:", error);
@@ -116,9 +119,12 @@ const Dashboard = () => {
 
     const autoSync = async () => {
       try {
-        const response = await supabase.functions.invoke("sync-spotify-playback", {
-          body: { venueId: user.id },
-        });
+        const response = await supabase.functions.invoke(
+          "sync-spotify-playback",
+          {
+            body: { venueId: user.id },
+          }
+        );
 
         const { data, error } = response;
         if (error) {
@@ -178,13 +184,13 @@ const Dashboard = () => {
 
     try {
       const { error } = await supabase
-        .from('spotify_credentials')
-        .update({ 
-          access_token: null, 
-          refresh_token: null, 
-          token_expires_at: null 
+        .from("spotify_credentials")
+        .update({
+          access_token: null,
+          refresh_token: null,
+          token_expires_at: null,
         })
-        .eq('user_id', user.id);
+        .eq("user_id", user.id);
 
       if (error) {
         console.error("Error disconnecting Spotify:", error);
@@ -195,7 +201,7 @@ const Dashboard = () => {
         });
       } else {
         // Refresh credentials to get updated state with preserved client_id/client_secret
-        const { data } = await supabase.rpc('get_user_spotify_credentials');
+        const { data } = await supabase.rpc("get_user_spotify_credentials");
         setSpotifyCredentials(data?.[0] || null);
         toast({
           title: "Disconnected",
@@ -277,30 +283,38 @@ const Dashboard = () => {
     }
   };
 
-  const updateSpotifySettings = async (field: string, value: boolean | string) => {
+  const updateSpotifySettings = async (
+    field: string,
+    value: boolean | string
+  ) => {
     if (!user) return;
-    
+
     try {
       const updates: any = {};
       if (field === "restrict_to_playlist") updates.restrict_playlist = value;
       if (field === "playlist_id") updates.playlist_id = value;
       if (field === "client_id") updates.client_id = value;
       if (field === "client_secret") updates.client_secret = value;
-      
-      const { error } = await supabase.rpc('upsert_spotify_credentials', updates);
-      
+
+      const { error } = await supabase.rpc(
+        "upsert_spotify_credentials",
+        updates
+      );
+
       if (error) {
         console.error("RPC Error updating Spotify settings:", error);
         toast({
           title: "Error",
-          description: `Failed to update Spotify settings: ${error.message || error.details || 'Unknown error'}`,
+          description: `Failed to update Spotify settings: ${
+            error.message || error.details || "Unknown error"
+          }`,
           variant: "destructive",
         });
       } else {
         // Update local state
-        setSpotifyCredentials({ 
+        setSpotifyCredentials({
           ...spotifyCredentials!,
-          [field]: value
+          [field]: value,
         });
         toast({
           title: "Settings updated",
@@ -311,7 +325,9 @@ const Dashboard = () => {
       console.error("Catch Error:", error);
       toast({
         title: "Error",
-        description: `Unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        description: `Unexpected error: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
         variant: "destructive",
       });
     }
@@ -329,9 +345,12 @@ const Dashboard = () => {
 
     setSyncing(true);
     try {
-      const response = await supabase.functions.invoke("sync-spotify-playback", {
-        body: { venueId: user.id },
-      });
+      const response = await supabase.functions.invoke(
+        "sync-spotify-playback",
+        {
+          body: { venueId: user.id },
+        }
+      );
 
       const { data, error } = response;
 
@@ -342,11 +361,12 @@ const Dashboard = () => {
       if (data.success) {
         toast({
           title: "Playback Synced",
-          description: data.message || "Successfully synced with Spotify playback.",
+          description:
+            data.message || "Successfully synced with Spotify playback.",
         });
       } else {
         toast({
-          title: "Sync Failed", 
+          title: "Sync Failed",
           description: data.error || "Failed to sync with Spotify.",
           variant: "destructive",
         });
@@ -377,10 +397,14 @@ const Dashboard = () => {
         <Card>
           <CardHeader>
             <CardTitle>Profil hittades inte</CardTitle>
-            <CardDescription>Vi kunde inte hitta din profil. Vänligen logga in igen.</CardDescription>
+            <CardDescription>
+              Vi kunde inte hitta din profil. Vänligen logga in igen.
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => navigate("/auth")}>Tillbaka till inloggning</Button>
+            <Button onClick={() => navigate("/auth")}>
+              Tillbaka till inloggning
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -388,8 +412,8 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto max-w-6xl px-4 py-6 pt-20">
+    <div className="min-h-screen bg-background mt-20">
+      <div className="container mx-auto max-w-6xl px-4 pt-4">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-1">{profile.venue_name}</h1>
@@ -402,23 +426,29 @@ const Dashboard = () => {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-full",
-                  spotifyCredentials?.access_token 
-                    ? "bg-green-500/10" 
-                    : "bg-red-500/10"
-                )}>
-                  <Music className={cn(
-                    "h-5 w-5",
-                    spotifyCredentials?.access_token 
-                      ? "text-green-600 dark:text-green-400" 
-                      : "text-red-600 dark:text-red-400"
-                  )} />
+                <div
+                  className={cn(
+                    "flex h-10 w-10 items-center justify-center rounded-full",
+                    spotifyCredentials?.access_token
+                      ? "bg-green-500/10"
+                      : "bg-red-500/10"
+                  )}
+                >
+                  <Music
+                    className={cn(
+                      "h-5 w-5",
+                      spotifyCredentials?.access_token
+                        ? "text-green-600 dark:text-green-400"
+                        : "text-red-600 dark:text-red-400"
+                    )}
+                  />
                 </div>
                 <div>
                   <p className="text-sm font-medium">Spotify</p>
                   <p className="text-xs text-muted-foreground">
-                    {spotifyCredentials?.access_token ? "Ansluten" : "Ej ansluten"}
+                    {spotifyCredentials?.access_token
+                      ? "Ansluten"
+                      : "Ej ansluten"}
                   </p>
                 </div>
               </div>
@@ -429,18 +459,22 @@ const Dashboard = () => {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-full",
-                  profile.allow_queueing 
-                    ? "bg-green-500/10" 
-                    : "bg-amber-500/10"
-                )}>
-                  <Clock className={cn(
-                    "h-5 w-5",
-                    profile.allow_queueing 
-                      ? "text-green-600 dark:text-green-400" 
-                      : "text-amber-600 dark:text-amber-400"
-                  )} />
+                <div
+                  className={cn(
+                    "flex h-10 w-10 items-center justify-center rounded-full",
+                    profile.allow_queueing
+                      ? "bg-green-500/10"
+                      : "bg-amber-500/10"
+                  )}
+                >
+                  <Clock
+                    className={cn(
+                      "h-5 w-5",
+                      profile.allow_queueing
+                        ? "text-green-600 dark:text-green-400"
+                        : "text-amber-600 dark:text-amber-400"
+                    )}
+                  />
                 </div>
                 <div>
                   <p className="text-sm font-medium">Kö</p>
@@ -468,7 +502,10 @@ const Dashboard = () => {
           </Card>
 
           {/* Analytics Link */}
-          <Card className="cursor-pointer hover:bg-accent/50 transition-colors" onClick={() => navigate("/analytics")}>
+          <Card
+            className="cursor-pointer hover:bg-accent/50 transition-colors"
+            onClick={() => navigate("/analytics")}
+          >
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
@@ -489,13 +526,19 @@ const Dashboard = () => {
           <Card className="border-primary/20">
             <CardHeader>
               <CardTitle className="text-lg">Snabbinställningar</CardTitle>
-              <CardDescription>De vanligaste inställningarna för din lokal</CardDescription>
+              <CardDescription>
+                De vanligaste inställningarna för din lokal
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
                 <div>
-                  <Label className="font-medium text-base">Tillåt låtförfrågningar</Label>
-                  <p className="text-sm text-muted-foreground">Låt gäster begära låtar via QR-kod</p>
+                  <Label className="font-medium text-base">
+                    Tillåt låtförfrågningar
+                  </Label>
+                  <p className="text-sm text-muted-foreground">
+                    Låt gäster begära låtar via QR-kod
+                  </p>
                 </div>
                 <Switch
                   checked={profile.allow_queueing}
@@ -509,8 +552,12 @@ const Dashboard = () => {
 
               <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
                 <div>
-                  <Label className="font-medium text-base">Begränsa till spellista</Label>
-                  <p className="text-sm text-muted-foreground">Endast låtar från din Spotify-spellista</p>
+                  <Label className="font-medium text-base">
+                    Begränsa till spellista
+                  </Label>
+                  <p className="text-sm text-muted-foreground">
+                    Endast låtar från din Spotify-spellista
+                  </p>
                 </div>
                 <Switch
                   checked={spotifyCredentials?.restrict_to_playlist || false}
@@ -525,7 +572,9 @@ const Dashboard = () => {
                   <Label className="text-sm">Spotify Playlist ID</Label>
                   <Input
                     value={spotifyCredentials?.playlist_id || ""}
-                    onChange={(e) => updateSpotifySettings("playlist_id", e.target.value)}
+                    onChange={(e) =>
+                      updateSpotifySettings("playlist_id", e.target.value)
+                    }
                     placeholder="t.ex., 37i9dQZF1DXcBWIGoYBM5M"
                   />
                   <p className="text-xs text-muted-foreground">
@@ -550,11 +599,15 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Adress</p>
-                  <p className="text-sm font-medium">{profile.physical_address}</p>
+                  <p className="text-sm font-medium">
+                    {profile.physical_address}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">E-post</p>
-                  <p className="text-sm font-medium truncate">{profile.email}</p>
+                  <p className="text-sm font-medium truncate">
+                    {profile.email}
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -573,7 +626,9 @@ const Dashboard = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg">Spotify-integration</CardTitle>
-              <CardDescription>Konfigurera och anslut ditt Spotify-konto</CardDescription>
+              <CardDescription>
+                Konfigurera och anslut ditt Spotify-konto
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid gap-6 md:grid-cols-2">
@@ -583,7 +638,9 @@ const Dashboard = () => {
                     <Label>Client ID</Label>
                     <Input
                       value={spotifyCredentials?.client_id || ""}
-                      onChange={(e) => updateSpotifySettings("client_id", e.target.value)}
+                      onChange={(e) =>
+                        updateSpotifySettings("client_id", e.target.value)
+                      }
                       placeholder="Ange Spotify Client ID"
                     />
                   </div>
@@ -592,17 +649,22 @@ const Dashboard = () => {
                     <Input
                       type="password"
                       value={spotifyCredentials?.client_secret || ""}
-                      onChange={(e) => updateSpotifySettings("client_secret", e.target.value)}
+                      onChange={(e) =>
+                        updateSpotifySettings("client_secret", e.target.value)
+                      }
                       placeholder="Ange Spotify Client Secret"
                     />
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Hämta credentials från <a 
-                      href="https://developer.spotify.com/dashboard" 
-                      target="_blank" 
+                    Hämta credentials från{" "}
+                    <a
+                      href="https://developer.spotify.com/dashboard"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-primary hover:underline"
-                    >Spotify Developer Dashboard</a>
+                    >
+                      Spotify Developer Dashboard
+                    </a>
                   </p>
                 </div>
 
@@ -616,7 +678,9 @@ const Dashboard = () => {
                         <XCircle className="h-4 w-4 text-red-500" />
                       )}
                       <span className="text-sm font-medium">
-                        {spotifyCredentials?.access_token ? "Ansluten" : "Ej ansluten"}
+                        {spotifyCredentials?.access_token
+                          ? "Ansluten"
+                          : "Ej ansluten"}
                       </span>
                     </div>
                   </div>
@@ -624,17 +688,28 @@ const Dashboard = () => {
                   {!spotifyCredentials?.access_token ? (
                     <Button
                       onClick={connectSpotify}
-                      disabled={!spotifyCredentials?.client_id || !spotifyCredentials?.client_secret}
+                      disabled={
+                        !spotifyCredentials?.client_id ||
+                        !spotifyCredentials?.client_secret
+                      }
                       className="w-full"
                     >
                       Anslut Spotify
                     </Button>
                   ) : (
                     <div className="space-y-2">
-                      <Button onClick={connectSpotify} variant="outline" className="w-full">
+                      <Button
+                        onClick={connectSpotify}
+                        variant="outline"
+                        className="w-full"
+                      >
                         Byt konto
                       </Button>
-                      <Button onClick={disconnectSpotify} variant="destructive" className="w-full">
+                      <Button
+                        onClick={disconnectSpotify}
+                        variant="destructive"
+                        className="w-full"
+                      >
                         Koppla från
                       </Button>
                     </div>
@@ -674,7 +749,9 @@ const Dashboard = () => {
           {/* Additional Settings */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Ytterligare inställningar</CardTitle>
+              <CardTitle className="text-lg">
+                Ytterligare inställningar
+              </CardTitle>
               <CardDescription>Logotyp och övriga funktioner</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -714,7 +791,9 @@ const Dashboard = () => {
               <div className="opacity-50">
                 <Label className="text-muted-foreground">Prissättning</Label>
                 <p className="text-xs text-muted-foreground">Kommer snart</p>
-                <Badge variant="outline" className="mt-2">Beta</Badge>
+                <Badge variant="outline" className="mt-2">
+                  Beta
+                </Badge>
               </div>
             </CardContent>
           </Card>

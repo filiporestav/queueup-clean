@@ -12,39 +12,52 @@ const VenueAdvantages = () => {
     {
       icon: TrendingUp,
       title: "Ökade intäkter",
-      description: "Förvandla musikförfrågningar till en ny intäktsström. Genomsnittliga venues ser 18% ökning av nattliga intäkter utan operativa kostnader.",
+      description:
+        "Förvandla musikförfrågningar till en ny intäktsström. Genomsnittliga venues ser 18% ökning av nattliga intäkter utan operativa kostnader.",
       stats: "+5% genomsnittlig intäkt",
     },
     {
       icon: DollarSign,
       title: "Höga vinstmarginaler",
-      description: "Enkel plug-and-play utan extra kostnader eller omkostnader. Pengarna går direkt till din resultat.",
+      description:
+        "Enkel plug-and-play utan extra kostnader eller omkostnader. Pengarna går direkt till din resultat.",
       stats: "90% vinstmarginal",
     },
     {
       icon: Users,
       title: "Förbättrad kundretention",
-      description: "Gäster stannar längre när deras låt kommer upp. Skapa förväntan och håll kunderna engagerade hela natten.",
+      description:
+        "Gäster stannar längre när deras låt kommer upp. Skapa förväntan och håll kunderna engagerade hela natten.",
       stats: "+30min genomsnittlig vistelse",
     },
     {
       icon: Heart,
       title: "Kundnöjdhet",
-      description: "Ge kunderna kontroll över sin upplevelse. Nöjda kunder blir återkommande kunder och varumärkesambassadörer.",
+      description:
+        "Ge kunderna kontroll över sin upplevelse. Nöjda kunder blir återkommande kunder och varumärkesambassadörer.",
       stats: "94% nöjdhetsgrad",
     },
     {
       icon: Clock,
       title: "Minskad personalbelastning",
-      description: "Inga fler konstanta musikförfrågningar till personalen. Låt tekniken hantera kön medan ditt team fokuserar på service.",
+      description:
+        "Inga fler konstanta musikförfrågningar till personalen. Låt tekniken hantera kön medan ditt team fokuserar på service.",
       stats: "12% färre avbrott",
     },
     {
       icon: BarChart3,
       title: "Datadrivna insikter",
-      description: "Förstå dina kunders musikpreferenser och högtrafik. Använd analyser för att optimera din venues atmosfär.",
+      description:
+        "Förstå dina kunders musikpreferenser och högtrafik. Använd analyser för att optimera din venues atmosfär.",
       stats: "Realtidsanalyser",
     },
+  ];
+
+  const integrations = [
+    { name: "Spotify", available: true },
+    { name: "Apple Music", available: false },
+    { name: "Apple Pay", available: false },
+    { name: "Swish", available: false },
   ];
 
   return (
@@ -86,22 +99,21 @@ const VenueAdvantages = () => {
 
         {/* Integration Badges */}
         <div className="mt-16 text-center">
-          <p className="text-muted-foreground mb-6">
-            Integrerar sömlöst med
-          </p>
+          <p className="text-muted-foreground mb-6">Integrerar sömlöst med</p>
           <div className="flex justify-center items-center space-x-8 flex-wrap gap-4">
-            <div className="bg-card border border-border rounded-lg px-4 py-2 text-sm font-medium">
-              Spotify
-            </div>
-            <div className="bg-card border border-border rounded-lg px-4 py-2 text-sm font-medium">
-              Apple Music
-            </div>
-            <div className="bg-card border border-border rounded-lg px-4 py-2 text-sm font-medium">
-              Apple Pay
-            </div>
-            <div className="bg-card border border-border rounded-lg px-4 py-2 text-sm font-medium">
-              Swish
-            </div>
+            {integrations.map((integration) => (
+              <div
+                key={integration.name}
+                className="bg-card border border-border rounded-lg px-4 py-2 text-sm font-medium relative"
+              >
+                {integration.name}
+                {!integration.available && (
+                  <span className="ml-2 text-xs text-muted-foreground">
+                    (Kommer snart)
+                  </span>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>

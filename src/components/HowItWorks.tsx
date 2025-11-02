@@ -5,7 +5,7 @@ import { useState } from "react";
 const HowItWorks = () => {
   const [songsPerNight, setSongsPerNight] = useState(50);
   const [avgPrice, setAvgPrice] = useState(3.5);
-  
+
   const nightlyRevenue = songsPerNight * avgPrice;
   const monthlyRevenue = nightlyRevenue * 30;
 
@@ -13,21 +13,24 @@ const HowItWorks = () => {
     {
       number: "1",
       title: "Skanna QR-koden",
-      description: "Skanna helt enkelt QR-koden vid ditt bord med din telefons kamera",
+      description:
+        "Skanna helt enkelt QR-koden vid ditt bord med din telefons kamera",
       Icon: QrCode,
       color: "primary",
     },
     {
       number: "2",
       title: "Välj din låt",
-      description: "Bläddra och välj vilken låt som helst från Spotifys enorma bibliotek",
+      description:
+        "Bläddra och välj vilken låt som helst från Spotifys enorma bibliotek",
       Icon: Music,
       color: "primary",
     },
     {
       number: "3",
       title: "Betala & njut",
-      description: "Snabb betalning och din låt spelas nästa i kön",
+      description:
+        "Snabb betalning och din låt läggs in i kön, redo att spelas",
       Icon: CreditCard,
       color: "primary",
     },
@@ -36,7 +39,7 @@ const HowItWorks = () => {
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+        <div className="text-center mb-16">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-card border border-border mb-6">
             <span className="text-sm font-medium text-muted-foreground">
               Enkel process
@@ -105,7 +108,7 @@ const HowItWorks = () => {
               Se hur mycket du kan tjäna med QueueUp
             </p>
           </div>
-          
+
           <div className="bg-card border border-border/50 rounded-xl p-6 lg:p-8 shadow-sm">
             {/* Input Controls */}
             <div className="grid md:grid-cols-2 gap-8 mb-10">
@@ -155,7 +158,7 @@ const HowItWorks = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Results */}
             <div className="space-y-4">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -167,16 +170,14 @@ const HowItWorks = () => {
                     Låtar/natt
                   </div>
                 </div>
-                
+
                 <div className="bg-muted/30 rounded-lg p-4 text-center">
                   <div className="text-2xl lg:text-3xl font-bold text-foreground mb-1">
                     {avgPrice.toFixed(2)} kr
                   </div>
-                  <div className="text-xs text-muted-foreground">
-                    Pris/låt
-                  </div>
+                  <div className="text-xs text-muted-foreground">Pris/låt</div>
                 </div>
-                
+
                 <div className="col-span-2 md:col-span-1 bg-muted/30 rounded-lg p-4 text-center">
                   <div className="text-2xl lg:text-3xl font-bold text-foreground mb-1">
                     {nightlyRevenue.toFixed(0)} kr

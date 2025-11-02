@@ -51,9 +51,22 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Företag</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/about-us" className="text-muted-foreground hover:text-primary transition-colors">Om oss</a></li>
-              <li><a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Kontakt</a></li>
-              <li><a href="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</a></li>
+              <li>
+                <a
+                  href="/contact"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Kontakt
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/faq"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  FAQ
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -61,9 +74,30 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Juridiskt</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/terms" className="text-muted-foreground hover:text-primary transition-colors">Villkor</a></li>
-              <li><a href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">Integritetspolicy</a></li>
-              <li><a href="/cookies" className="text-muted-foreground hover:text-primary transition-colors">Cookie-samtycke</a></li>
+              <li>
+                <a
+                  href="/terms"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Villkor
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/privacy"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Integritetspolicy
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/cookies"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Cookie-samtycke
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -71,8 +105,14 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/help" className="text-muted-foreground hover:text-primary transition-colors">Hjälpcenter</a></li>
-              <li><a href="mailto:support@queueup.ai" className="text-muted-foreground hover:text-primary transition-colors">support@queueup.ai</a></li>
+              <li>
+                <a
+                  href="mailto:support@queue-up.se"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  support@queue-up.se
+                </a>
+              </li>
             </ul>
           </div>
         </div>
